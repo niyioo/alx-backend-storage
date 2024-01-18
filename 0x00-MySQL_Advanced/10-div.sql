@@ -1,5 +1,5 @@
 -- Create a function SafeDiv
-DELIMITER //
+DELIMITER $$ ;
 
 CREATE FUNCTION SafeDiv(a INT, b INT)
 RETURNS DECIMAL(10, 10)
@@ -10,6 +10,6 @@ BEGIN
     ELSE
         RETURN a / b;
     END IF;
-END //
+END;$$
 
 DELIMITER ;
