@@ -1,41 +1,47 @@
 #!/usr/bin/env python3
 """
-102-log_stats.py
+Python script that provides some stats about Nginx logs stored in MongoDB
 """
 from pymongo import MongoClient
 
 
-def log_stats(mongo_collection):
-    """
-    Provides stats about Nginx logs stored in MongoDB.
-    """
-    total_logs = mongo_collection.count_documents({})
-    print(f"{total_logs} logs")
+METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
-    methods = ["GET", "POST", "PUT", "PATCH", "DELETE"]
-    for method in methods:
-        count = mongo_collection.count_documents({"method": method})
-        print(f"method {method}: {count}")
 
-    status_check_count = mongo_collection.count_documents({"method": "GET", "path": "/status"})
-    print(f"status check: {status_check_count}")
+def log_stats(mongo_collection, option=None):
+    """
+    Provide some stats about Nginx logs stored in MongoDB
+    """
+    stats = {}
+    if option:
+        val = mongo_collection.count_documents(
+            {"method": {"$regex": option}})
+        print(f"\tmethod {option}: {val}")
+        return
+
+    result = mongo_collection.count_documents(stats)
+    print(f"{result} logs")
+    print("Methods:")
+    for method in METHODS:
+        val = mongo_collection.count_documents({"method": method})
+        print(f"\tmethod {method}: {val}")
+
+    status_check = mongo_collection.count_documents({"path": "/status"})
+    print(f"{status_check} status check")
 
     # Top 10 IPs
-    top_ips = mongo_collection.aggregate([
+    pipeline = [
         {"$group": {"_id": "$ip", "count": {"$sum": 1}}},
         {"$sort": {"count": -1}},
         {"$limit": 10}
-    ])
+    ]
+    top_ips = mongo_collection.aggregate(pipeline)
 
     print("IPs:")
-    for ip_data in top_ips:
-        ip = ip_data["_id"]
-        count = ip_data["count"]
-        print(f"    {ip}: {count}")
+    for entry in top_ips:
+        print(f"\t{entry['_id']}: {entry['count']}")
 
 
 if __name__ == "__main__":
-    client = MongoClient('mongodb://127.0.0.1:27017')
-    logs_collection = client.logs.nginx
-
-    log_stats(logs_collection)
+    nginx_collection = MongoClient('mongodb://127.0.0.1:27017').logs.nginx
+    log_stats(nginx_collection)
