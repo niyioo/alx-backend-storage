@@ -2,11 +2,10 @@
 """
 10-update_topics.py
 """
-from pymongo.collection import Collection
-from typing import List
+import pymongo
 
 
-def update_topics(mongo_collection: Collection, name: str, topics: List[str]) -> None:
+def update_topics(mongo_collection, name, topics):
     """
     Changes all topics of a school document based on the name.
 
@@ -19,7 +18,3 @@ def update_topics(mongo_collection: Collection, name: str, topics: List[str]) ->
         None
     """
     mongo_collection.update_many({"name": name}, {"$set": {"topics": topics}})
-
-
-if __name__ == "__main__":
-    pass  # No code is executed when imported
