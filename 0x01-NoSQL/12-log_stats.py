@@ -2,21 +2,20 @@
 """
 Python script that provides some stats about Nginx logs stored in MongoDB
 """
-from pymongo.collection import Collection
-from pymongo import MongoClient
+import pymongo
 
 
 METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
 
 
-def count_documents_with_option(collection: Collection, option: str) -> int:
+def count_documents_with_option(collection, option):
     """
     Count documents in the collection with a specific option.
     """
     return collection.count_documents({"method": {"$regex": option}})
 
 
-def log_stats(collection: Collection, option: str = None) -> None:
+def log_stats(collection, option):
     """
     Provide some stats about Nginx logs stored in MongoDB.
     """
