@@ -1,11 +1,3 @@
-#!/bin/bash
-# Script to list all documents in the collection school
+// Script to list all documents in the collection school
 
-# Check if the database name is provided
-if [ -z "$1" ]; then
-    echo "Usage: $0 <database_name>"
-    exit 1
-fi
-
-# Connect to MongoDB and list all documents in the school collection
-mongo "$1" --quiet --eval 'db.school.find().forEach(printjson);'
+db.school.find().forEach(printjson)
