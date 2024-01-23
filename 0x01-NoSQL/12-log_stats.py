@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 """
-12-log_stats.py
+Python script that provides some stats about Nginx logs stored in MongoDB
 """
 from pymongo import MongoClient
 
 
-def log_stats():
+METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
+
+
+def log_stats(mongo_collection, option=None):
     """
     Provides statistics about Nginx logs stored in MongoDB.
     """
