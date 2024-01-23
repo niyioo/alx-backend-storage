@@ -1,12 +1,11 @@
 #!/usr/bin/env python3
 """
-11-schools_by_topic.py
+Python function that returns the list of school having a specific topic
 """
-from pymongo.collection import Collection
-from typing import List
+import pymongo
 
 
-def schools_by_topic(mongo_collection: Collection, topic: str) -> List[dict]:
+def schools_by_topic(mongo_collection, topic):
     """
     Returns the list of schools having a specific topic.
 
@@ -19,6 +18,3 @@ def schools_by_topic(mongo_collection: Collection, topic: str) -> List[dict]:
     """
     return list(mongo_collection.find({"topics": topic}))
 
-
-if __name__ == "__main__":
-    pass  # No code is executed when imported

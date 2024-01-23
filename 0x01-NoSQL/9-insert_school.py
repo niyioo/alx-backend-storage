@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-9-insert_school.py
+Python function that inserts a new document in a collection based on kwargs
 """
 import pymongo
 

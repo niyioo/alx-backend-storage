@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-8-all.py
+Python function that lists all documents in a collection
 """
 import pymongo
 
