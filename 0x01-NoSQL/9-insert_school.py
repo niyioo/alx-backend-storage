@@ -2,11 +2,10 @@
 """
 9-insert_school.py
 """
-from pymongo.collection import Collection
-from typing import Dict
+import pymongo
 
 
-def insert_school(mongo_collection: Collection, **kwargs: Dict) -> str:
+def insert_school(mongo_collection, **kwargs):
     """
     Inserts a new document in a collection based on kwargs.
 
@@ -19,7 +18,3 @@ def insert_school(mongo_collection: Collection, **kwargs: Dict) -> str:
     """
     result = mongo_collection.insert_one(kwargs)
     return str(result.inserted_id)
-
-
-if __name__ == "__main__":
-    pass  # No code is executed when imported
