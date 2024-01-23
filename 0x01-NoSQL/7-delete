@@ -1,11 +1,3 @@
-#!/bin/bash
-# Script to delete documents in the collection school
+// Script to delete documents in the collection school
 
-# Check if the database name is provided
-if [ -z "$1" ]; then
-    echo "Usage: $0 <database_name>"
-    exit 1
-fi
-
-# Connect to MongoDB and delete documents in the school collection
-mongo "$1" --quiet --eval 'db.school.remove({ name: "Holberton school" });'
+db.school.remove({ name: "Holberton school" })
