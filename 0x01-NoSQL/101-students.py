@@ -9,12 +9,22 @@ def top_students(mongo_collection):
     """
     Returns all students sorted by average score.
     """
-    students = mongo_collection.find()
+    pipeline = [
+        {
+            "$unwind": "$topics"
+        },
+        {
+            "$group": {
+                "_id": "$_id",
+                "name": {"$first": "$name"},
+                "averageScore": {"$avg": "$topics.score"}
+            }
+        },
+        {
+            "$sort": {
+                "averageScore": -1
+            }
+        }
+    ]
 
-    for student in students:
-        total_score = 0
-        for topic in student['topics']:
-            total_score += topic['score']
-        student['averageScore'] = total_score / len(student['topics'])
-
-    return sorted(students, key=lambda x: x['averageScore'], reverse=True)
+    return mongo_collection.aggregate(pipeline)
