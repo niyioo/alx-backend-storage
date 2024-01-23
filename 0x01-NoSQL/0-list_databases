@@ -1,0 +1,5 @@
+#!/bin/bash
+# Script to list all databases in MongoDB
+
+# Connect to MongoDB and list databases
+mongo --quiet --eval 'db.getMongo().getDBNames().forEach(function(db) { print(db) });'

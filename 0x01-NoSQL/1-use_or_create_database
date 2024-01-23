@@ -1,0 +1,5 @@
+#!/bin/bash
+# Script to create or use the database my_db
+
+# Connect to MongoDB and create or switch to the my_db database
+mongo --quiet --eval 'use my_db;'
