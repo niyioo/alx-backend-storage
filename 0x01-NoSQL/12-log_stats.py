@@ -2,7 +2,7 @@
 """
 Python script that provides some stats about Nginx logs stored in MongoDB
 """
-import pymongo
+from pymongo import MongoClient
 
 
 METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"]
