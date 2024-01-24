@@ -4,19 +4,18 @@ Module to implement a web cache and tracker using Redis
 """
 import redis
 import requests
+rc = redis.Redis()
+count = 0
 
-redis_client = redis.Redis()
-request_count = 0
 
-
-def get_page_and_cache(url: str) -> str:
-    """ Get a page and cache value """
-    redis_client.set(f"cached:{url}", request_count)
-    response = requests.get(url)
-    redis_client.incr(f"count:{url}")
-    redis_client.setex(f"cached:{url}", 10, redis_client.get(f"cached:{url}"))
-    return response.text
+def get_page(url: str) -> str:
+    """ get a page and cach value"""
+    rc.set(f"cached:{url}", count)
+    resp = requests.get(url)
+    rc.incr(f"count:{url}")
+    rc.setex(f"cached:{url}", 10, rc.get(f"cached:{url}"))
+    return resp.text
 
 
 if __name__ == "__main__":
-    get_page_and_cache('http://slowwly.robertomurray.co.uk')
+    get_page('http://slowwly.robertomurray.co.uk')
