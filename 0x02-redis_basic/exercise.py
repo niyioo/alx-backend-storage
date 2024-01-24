@@ -71,7 +71,11 @@ class Cache:
         self._redis.mset({key: data})
         return key
 
-    def get(self, key: str, fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
+    def get(
+            self,
+            key: str,
+            fn: Optional[Callable] = None
+            ) -> Union[str, bytes, int, float]:
         """Get the element and return the decoded version"""
         data = self._redis.get(key)
         if fn is not None:
