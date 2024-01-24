@@ -59,8 +59,7 @@ def cache_and_track(expiration_time: int = 10) -> Callable:
             html_content = fn(url)
 
             # Cache the result with expiration time
-            redis_client.setex(cached_result_key,
-                               expiration_time, html_content)
+            redis_client.setex(cached_result_key, expiration_time, html_content)
 
             return html_content
 
@@ -81,3 +80,7 @@ def get_page(url: str) -> str:
     """
     response = requests.get(url)
     return response.text
+
+
+if __name__ == "__main__":
+    get_page('http://slowwly.robertomurray.co.uk')
