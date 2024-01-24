@@ -39,12 +39,14 @@ class Cache:
     Cache class
     """
 
+
     def __init__(self) -> None:
         """
         Initialize Cache instance
         """
         self._redis = redis.Redis()
         self._redis.flushdb()
+
 
     @call_history
     def store(self, data: Union[str, bytes, int, float]) -> str:
