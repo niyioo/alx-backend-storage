@@ -86,8 +86,8 @@ def get_page(url: str) -> str:
 if __name__ == "__main__":
     # Test slow response URL (simulated)
     slow_url = (
-    "http://slowwly.robertomurray.co.uk/delay/5000/url/"
-    "http://www.google.com"
+                "http://slowwly.robertomurray.co.uk/delay/5000/url/"
+                "http://www.google.com"
     )
 
     # Access the slow URL multiple times
