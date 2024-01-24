@@ -13,14 +13,16 @@ def cache_and_track(expiration_time: int = 10) -> Callable:
     Decorator to cache and track the number of times a function is called
 
     Args:
-    - expiration_time (int): Expiration time for cache in seconds (default is 10)
+    - expiration_time (int): Expiration time
+    for cache in seconds (default is 10)
 
     Returns:
     - Callable: Decorated function
     """
     def decorator(fn: Callable) -> Callable:
         """
-        Decorator function to cache and track the number of times a URL is accessed
+        Decorator function to cache and track the
+        number of times a URL is accessed
 
         Args:
         - fn (Callable): Original function to be decorated
@@ -31,7 +33,8 @@ def cache_and_track(expiration_time: int = 10) -> Callable:
         @wraps(fn)
         def wrapper(url: str) -> str:
             """
-            Wrapper function to cache and track the number of times a URL is accessed
+            Wrapper function to cache and track the
+            number of times a URL is accessed
 
             Args:
             - url (str): URL to fetch
@@ -82,7 +85,10 @@ def get_page(url: str) -> str:
 # Test cases
 if __name__ == "__main__":
     # Test slow response URL (simulated)
-    slow_url = "http://slowwly.robertomurray.co.uk/delay/5000/url/http://www.google.com"
+    slow_url = (
+    "http://slowwly.robertomurray.co.uk/delay/5000/url/"
+    "http://www.google.com"
+    )
 
     # Access the slow URL multiple times
     for _ in range(5):
