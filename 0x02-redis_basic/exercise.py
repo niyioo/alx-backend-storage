@@ -95,4 +95,5 @@ class Cache:
         for input_args, output in zip(inputs, outputs):
             # Convert string back to tuple
             input_args = eval(input_args.decode('utf-8'))
-            print("{} -> {}".format(method.__qualname__, tuple(input_args), output))
+            print("{} -> {}".format(method.__qualname__,
+                                    tuple(input_args), output))
