@@ -9,14 +9,14 @@ from functools import wraps
 
 
 def call_history(method: Callable) -> Callable:
-    """ memorize user actions"""
+    """Decorator to log user actions"""
     method_key = method.__qualname__
     inputs = method_key + ':inputs'
     outputs = method_key + ':outputs'
 
     @wraps(method)
     def wrapper(self, *args, **kwds):
-        """ function  wrapped """
+        """Wrapped function to record user actions"""
         self._redis.rpush(inputs, str(args))
         data = method(self, *args, **kwds)
         self._redis.rpush(outputs, str(data))
@@ -25,19 +25,19 @@ def call_history(method: Callable) -> Callable:
 
 
 def count_calls(method: Callable) -> Callable:
-    """ counts method call """
+    """Decorator to count method calls"""
     method_key = method.__qualname__
 
     @wraps(method)
     def wrapper(self, *args, **kwds):
-        """wrapped function """
+        """Wrapped function to count method calls"""
         self._redis.incr(method_key)
         return method(self, *args, **kwds)
     return wrapper
 
 
 def replay(method: Callable):
-    """ display the history call """
+    """Function to display the call history of a method"""
     method_key = method.__qualname__
     inputs = method_key + ":inputs"
     outputs = method_key + ":outputs"
