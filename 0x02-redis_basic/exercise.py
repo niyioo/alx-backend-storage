@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
-create a connection with redis database
+Cache module
 """
+
 import redis
 from uuid import uuid4
 from typing import Callable, Optional, Union
@@ -13,6 +14,7 @@ def call_history(method: Callable) -> Callable:
     method_key = method.__qualname__
     inputs = method_key + ':inputs'
     outputs = method_key + ':outputs'
+
 
     @wraps(method)
     def wrapper(self, *args, **kwds):
@@ -27,6 +29,7 @@ def call_history(method: Callable) -> Callable:
 def count_calls(method: Callable) -> Callable:
     """Decorator to count method calls"""
     method_key = method.__qualname__
+
 
     @wraps(method)
     def wrapper(self, *args, **kwds):
@@ -54,35 +57,40 @@ def replay(method: Callable):
 
 class Cache:
     """
-    store informations
+    Class to store information
     """
 
+
     def __init__(self):
-        """construct the instance"""
+        """Constructor to initialize the instance"""
         self._redis = redis.Redis()
         self._redis.flushdb()
+
 
     @call_history
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        """ store new data and return a new uuid"""
+        """Store new data and return a new UUID"""
         key = str(uuid4())
         self._redis.mset({key: data})
         return key
 
+
     def get(self,
             key: str,
             fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
-        """ get the element and return the decoded version"""
+        """Get the element and return the decoded version"""
         data = self._redis.get(key)
         if (fn is not None):
             return fn(data)
         return data
 
+
     def get_str(self, data: str) -> str:
-        """ return the decoded byte in string """
+        """Return the decoded byte in strin"""
         return data.decode('utf-8')
 
+
     def get_int(self, data: str) -> int:
-        """ return the decoded byte in integer """
+        """Return the decoded byte in integer"""
         return int(data)
