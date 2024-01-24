@@ -23,7 +23,6 @@ def call_history(method: Callable) -> Callable:
         return data
     return wrapper
 
-
 def count_calls(method: Callable) -> Callable:
     """Decorator to count method calls"""
     method_key = method.__qualname__
@@ -34,7 +33,6 @@ def count_calls(method: Callable) -> Callable:
         self._redis.incr(method_key)
         return method(self, *args, **kwds)
     return wrapper
-
 
 def replay(method: Callable):
     """Function to display the call history of a method"""
@@ -57,12 +55,10 @@ class Cache:
     Class to store information
     """
 
-
     def __init__(self):
         """Constructor to initialize the instance"""
         self._redis = redis.Redis()
         self._redis.flushdb()
-
 
     @call_history
     @count_calls
@@ -71,7 +67,6 @@ class Cache:
         key = str(uuid4())
         self._redis.mset({key: data})
         return key
-
 
     def get(self,
             key: str,
