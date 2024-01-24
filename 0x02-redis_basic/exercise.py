@@ -2,7 +2,6 @@
 """
 Cache module
 """
-
 import redis
 from uuid import uuid4
 from typing import Callable, Optional, Union
@@ -14,7 +13,6 @@ def call_history(method: Callable) -> Callable:
     method_key = method.__qualname__
     inputs = method_key + ':inputs'
     outputs = method_key + ':outputs'
-
 
     @wraps(method)
     def wrapper(self, *args, **kwds):
@@ -29,7 +27,6 @@ def call_history(method: Callable) -> Callable:
 def count_calls(method: Callable) -> Callable:
     """Decorator to count method calls"""
     method_key = method.__qualname__
-
 
     @wraps(method)
     def wrapper(self, *args, **kwds):
@@ -70,7 +67,7 @@ class Cache:
     @call_history
     @count_calls
     def store(self, data: Union[str, bytes, int, float]) -> str:
-        """Store new data and return a new UUID"""
+        """ Store new data and return a new UUID"""
         key = str(uuid4())
         self._redis.mset({key: data})
         return key
@@ -79,17 +76,15 @@ class Cache:
     def get(self,
             key: str,
             fn: Optional[Callable] = None) -> Union[str, bytes, int, float]:
-        """Get the element and return the decoded version"""
+        """ Get the element and return the decoded version"""
         data = self._redis.get(key)
         if (fn is not None):
             return fn(data)
         return data
 
-
     def get_str(self, data: str) -> str:
         """Return the decoded byte in strin"""
         return data.decode('utf-8')
-
 
     def get_int(self, data: str) -> int:
         """Return the decoded byte in integer"""
