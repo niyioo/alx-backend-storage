@@ -58,7 +58,11 @@ def cache_and_track(expiration_time: int = 10) -> Callable:
             html_content = fn(url)
 
             # Cache the result with expiration time
-            redis_client.setex(cached_result_key, expiration_time, html_content)
+            redis_client.setex(
+                cached_result_key,
+                expiration_time,
+                html_content
+                )
 
             # Reset the count to 0 after expiration time
             if access_count == 1:
